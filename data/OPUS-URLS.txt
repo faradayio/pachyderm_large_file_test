@@ -1,0 +1,9 @@
+http://opus.lingfil.uu.se/download.php?f=Books/Books2014-07-30.tar.gz
+http://opus.lingfil.uu.se/download.php?f=DOGC/DOGC2014-07-17.tar.gz
+http://opus.lingfil.uu.se/download.php?f=EMEA/EMEA0.3.tar.gz
+http://opus.lingfil.uu.se/download.php?f=EUbookshop/EUbookshop0.2.tar.gz
+http://opus.lingfil.uu.se/download.php?f=EUconst/EUconst0.1.tar.gz
+http://opus.lingfil.uu.se/download.php?f=Europarl/Europarlv7.tar.gz
+http://opus.lingfil.uu.se/download.php?f=Europarl3/Europarl3.tar.gz
+http://opus.lingfil.uu.se/download.php?f=GNOME/GNOME2014-08-20.tar.gz
+http://opus.lingfil.uu.se/download.php?f=GlobalVoices/GlobalVoices2015.tar.gz
