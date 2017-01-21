@@ -14,6 +14,9 @@ OPUS is a great data set for all sorts of linguistics and translation
 tasks, though you usually need to massage into a more useful format for
 your specific application first.
 
+[Pachyderm]: https://www.pachyderm.io/
+[OPUS]: http://opus.lingfil.uu.se/index.php
+
 ## Cluster configuration
 
 Kubernetes master and two minions, each with the following specs:
@@ -25,8 +28,10 @@ Kubernetes master and two minions, each with the following specs:
 - Disk: 469 GiB
 
 This cluster was created using Rancher 1.3.2, with the fix for
-rancher/rancher#7370 applied.  The servers were created using the Rancher
+[rancher/rancher#7370][] applied.  The servers were created using the Rancher
 REST API using the following options:
+
+[rancher/rancher#7370]: https://github.com/rancher/rancher/issues/7370
 
 ```typescript
   const config = {
@@ -156,11 +161,34 @@ shm              64M     0   64M   0% /dev/shm
 This is similar to the above, except we use a explicit URL.  In practice,
 this URL might be signed using `aws s3 presign`.
 
-```
+```sh
 pachctl create-repo eubookshop_http
 pachctl put-file eubookshop_http master EUbookshop0.2.tar.gz -c \
     -f https://fdy-pachyderm-public-test-data.s3.amazonaws.com/opus/EUbookshop0.2.tar.gz
 ```
 
-[Pachyderm]: https://www.pachyderm.io/
-[OPUS]: http://opus.lingfil.uu.se/index.php
+## Test 3: Adding all files
+
+This is intended to approximate a test of adding 50GB to 200GB of CSV data
+from a single source, spread out across varying numbers of multi-GB files.
+We'll just try it with 60 GB for now.
+
+```sh
+pachctl create-repo opus_tars
+pachctl put-file opus_tars master -c -i URLS.txt
+```
+
+Result: Hung for about 5 minutes, then `pachd version` started erroring,
+suggesting that the backend fell over again.
+
+## (TODO) Test 4: Copy-through of all files
+
+We want to create a pipeline that copies everyting in `/pfs/opus_tars` to
+`/pfs/out` unchanged, using `FILE` mode and multiple worker containers.
+
+## (TODO) Test 5: A transformation with large inputs, large outputs and reduce
+
+I'll throw some code together for this once we start making progress on the
+other stuff, but (for example) I might reorganize the input data by
+language, convert from XML to another format, and repackage it in new
+tarballs.  This simulates our more complex pipelines.
