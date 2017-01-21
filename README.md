@@ -60,7 +60,7 @@ Hosts can also be added manually using the UI and these options.  For
 testing purposes, you can set up the instance profile `kubernetes` with EBS
 attach/detach permissions:
 
-```
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
