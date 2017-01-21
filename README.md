@@ -28,7 +28,7 @@ This cluster was created using Rancher 1.3.2, with the fix for
 rancher/rancher#7370 applied.  The servers were created using the Rancher
 REST API using the following options:
 
-```json
+```typescript
   const config = {
     amazonec2Config: {
       accessKey: process.env['RANCHER_AWS_ACCESS_KEY_ID'],
