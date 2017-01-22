@@ -1,0 +1,31 @@
+{
+  "pipeline": {
+    "name": "opus_repack"
+  },
+  "transform": {
+    "image": "ubuntu:latest",
+    "cmd": ["bash"],
+    "stdin": [
+      "set -euo pipefail",
+      "cd /pfs/opus_unpack",
+      "for lang in ??; do",
+      "  tar cf \"/pfs/out/$(basename \"$lang\").tar\" \"$lang\"",
+      "done"
+    ]
+  },
+  "parallelism_spec": {
+    "strategy": "CONSTANT",
+    "constant": 2
+  },
+  "inputs": [
+    {
+      "repo": {
+        "name": "opus_unpack"
+      },
+      "method": {
+        "partition": "FILE",
+        "incremental": "NONE"
+      }
+    }
+  ]
+}

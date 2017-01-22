@@ -1,0 +1,38 @@
+{
+  "pipeline": {
+    "name": "opus_unpack"
+  },
+  "transform": {
+    "image": "ubuntu:latest",
+    "cmd": ["bash"],
+    "stdin": [
+      "set -euo pipefail",
+      "mkdir -p /work",
+      "cd /work",
+      "for f in /pfs/opus_tars/*.tar.gz; do",
+      "  tar xzf \"$f\"",
+      "  for lang_dir in `find . -name '??' -type d`; do",
+      "    lang_out=\"/pfs/out/$(basename \"$lang_dir\")\"",
+      "    mkdir -p \"$lang_out\"",
+      "    cp -r \"$lang_dir\"/* \"$lang_out\"",
+      "  done",
+      "  rm -rf *",
+      "done"
+    ]
+  },
+  "parallelism_spec": {
+    "strategy": "CONSTANT",
+    "constant": 2
+  },
+  "inputs": [
+    {
+      "repo": {
+        "name": "opus_tars"
+      },
+      "method": {
+        "partition": "FILE",
+        "incremental": "NONE"
+      }
+    }
+  ]
+}

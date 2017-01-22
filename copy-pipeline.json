@@ -1,0 +1,30 @@
+{
+  "pipeline": {
+    "name": "opus_copy"
+  },
+  "transform": {
+    "image": "ubuntu:latest",
+    "cmd": ["bash"],
+    "stdin": [
+        "set -euo pipefail",
+        "for f in /pfs/opus_tars/*.tar.gz; do",
+        "   cp \"$f\" \"/pfs/out/$(basename \"$f\")\"",
+        "done"
+    ]
+  },
+  "parallelism_spec": {
+    "strategy": "CONSTANT",
+    "constant": 2
+  },
+  "inputs": [
+    {
+      "repo": {
+        "name": "opus_tars"
+      },
+      "method": {
+        "partition": "FILE",
+        "incremental": "NONE"
+      }
+    }
+  ]
+}

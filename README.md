@@ -1,4 +1,4 @@
-# Testing Pachyderm with very large files
+# Testing Pachyderm with very large files in `FILE` mode
 
 This is a test case for [Pachyderm][] focusing on large files and commits,
 and avoiding the use of `BLOCK` mode.  It uses data from the [OPUS][]
@@ -92,6 +92,14 @@ attach/detach permissions:
 ...and you can allow Rancher to create the `rancher-machine` security group
 when creating a server through the UI.
 
+## Running all tests automatically
+
+Make sure `pachctl` can see your cluster and `~/pfs` is mounted.  Then run:
+
+```sh
+./test.sh
+```
+
 ## Test 1: Commiting a large file via S3 URL
 
 This is a 33GB tarball stored on S3.
@@ -161,12 +169,6 @@ shm              64M     0   64M   0% /dev/shm
 This is similar to the above, except we use a explicit URL.  In practice,
 this URL might be signed using `aws s3 presign`.
 
-```sh
-pachctl create-repo eubookshop_http
-pachctl put-file eubookshop_http master EUbookshop0.2.tar.gz -c \
-    -f https://fdy-pachyderm-public-test-data.s3.amazonaws.com/opus/EUbookshop0.2.tar.gz
-```
-
 ## Test 3: Adding all files
 
 This is intended to approximate a test of adding 50GB to 200GB of CSV data
@@ -178,17 +180,29 @@ pachctl create-repo opus_tars
 pachctl put-file opus_tars master -c -i URLS.txt
 ```
 
-Result: Hung for about 5 minutes, then `pachd version` started erroring,
-suggesting that the backend fell over again.
+**Result in local test:** Hung for about 5 minutes, then `pachd version`
+started erroring, suggesting that the backend fell over again.
 
-## (TODO) Test 4: Copy-through of all files
+## Test 4: Copy-through of all files
 
-We want to create a pipeline that copies everyting in `/pfs/opus_tars` to
+(Tested successfully with a smaller input.)
+
+We create a pipeline that copies everyting in `/pfs/opus_tars` to
 `/pfs/out` unchanged, using `FILE` mode and multiple worker containers.
+This has been tested using a single, smaller `tar.gz` input file.
 
-## (TODO) Test 5: A transformation with large inputs, large outputs and reduce
+## Test 5: Unpack tarballs, sort by language, repack
 
-I'll throw some code together for this once we start making progress on the
-other stuff, but (for example) I might reorganize the input data by
-language, convert from XML to another format, and repackage it in new
-tarballs.  This simulates our more complex pipelines.
+(Tested successfully with a smaller input.)
+
+We use two pipelines:
+
+1. `opus_unpack`: This unpacks all the tarballs in `opus_tars` and
+   organizes the raw data by language in `/pfs/out/en/`, `/pfs/out/es/`, etc.
+2. `opus_repack`: This takes `/pfs/opus_unpack/$LANG/` and repacks it as
+   `/pfs/out/$LANG.tar`.  We set `"constant": 2` but we only want to
+   produce a single, valid `en.tar` file!  This is a test of how `FILE`
+   reduction works with multiple parallel workers and files in
+   subdirectories, and it assumes the semantics I would natually imagine,
+   which may not be correct.
+
