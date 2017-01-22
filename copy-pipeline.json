@@ -7,7 +7,7 @@
     "cmd": ["bash"],
     "stdin": [
         "set -euo pipefail",
-        "for f in /pfs/opus_tars/*.tar.gz; do",
+        "for f in $(find /pfs/opus_tars/ -name '*.tar.gz'); do",
         "   cp \"$f\" \"/pfs/out/$(basename \"$f\")\"",
         "done"
     ]

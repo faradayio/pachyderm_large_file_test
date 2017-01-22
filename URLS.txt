@@ -1,4 +1,3 @@
-s3://fdy-pachyderm-public-test-data/opus/DOGC2014-07-17.tar.gz
 s3://fdy-pachyderm-public-test-data/opus/Books2014-07-30.tar.gz
 s3://fdy-pachyderm-public-test-data/opus/EUconst0.1.tar.gz
 s3://fdy-pachyderm-public-test-data/opus/Europarl3.tar.gz

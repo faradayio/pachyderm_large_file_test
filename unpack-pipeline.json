@@ -9,7 +9,7 @@
       "set -euo pipefail",
       "mkdir -p /work",
       "cd /work",
-      "for f in /pfs/opus_tars/*.tar.gz; do",
+      "for f in /pfs/opus_copy/*.tar.gz; do",
       "  tar xzf \"$f\"",
       "  for lang_dir in `find . -name '??' -type d`; do",
       "    lang_out=\"/pfs/out/$(basename \"$lang_dir\")\"",
@@ -27,7 +27,7 @@
   "inputs": [
     {
       "repo": {
-        "name": "opus_tars"
+        "name": "opus_copy"
       },
       "method": {
         "partition": "FILE",

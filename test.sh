@@ -63,8 +63,7 @@ fake_test_3() {
 
     set -o xtrace
     pachctl create-repo opus_tars
-    pachctl put-file opus_tars master EUconst0.1.tar.gz -c \
-        -f https://fdy-pachyderm-public-test-data.s3.amazonaws.com/opus/EUconst0.1.tar.gz
+    pachctl put-file opus_tars master -c -i SMALL-URLS.txt
     set +o xtrace
 }
 
