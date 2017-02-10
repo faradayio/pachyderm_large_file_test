@@ -4,25 +4,30 @@
   },
   "transform": {
     "image": "ubuntu:latest",
+    "debug": true,
     "cmd": ["bash"],
     "stdin": [
       "set -euo pipefail",
-      "mkdir -p /work",
-      "cd /work",
+      "mkdir -p /pfs/work",
+      "cd /pfs/work",
       "for f in /pfs/opus_copy/*.tar.gz; do",
+	  "  echo \"going to untar $f\"",
       "  tar xzf \"$f\"",
       "  for lang_dir in `find . -name '??' -type d`; do",
       "    lang_out=\"/pfs/out/$(basename \"$lang_dir\")\"",
+	  "    echo \"lang_out=$lang_out\"",
       "    mkdir -p \"$lang_out\"",
-      "    cp -r \"$lang_dir\"/* \"$lang_out\"",
+	  "    echo \"going to copy all the files ( $(ls $lang_dir | wc -l) ) in $lang_dir: $lang_dir\"",
+	  "    for file in \"$lang_dir\"/*; do cp \"$file\" \"$lang_out\"; done",
       "  done",
       "  rm -rf *",
-      "done"
+      "done",
+      "du -h -d 1 /pfs/out "
     ]
   },
   "parallelism_spec": {
     "strategy": "CONSTANT",
-    "constant": 2
+    "constant": 4
   },
   "inputs": [
     {
@@ -32,7 +37,8 @@
       "method": {
         "partition": "FILE",
         "incremental": "NONE"
-      }
+      },
+      "lazy": true
     }
   ]
 }

@@ -1,0 +1,5 @@
+s3://fdy-pachyderm-public-test-data/opus/Books2014-07-30.tar.gz
+s3://fdy-pachyderm-public-test-data/opus/EUconst0.1.tar.gz
+s3://fdy-pachyderm-public-test-data/opus/GlobalVoices2015.tar.gz
+s3://fdy-pachyderm-public-test-data/opus/Europarl3.tar.gz
+s3://fdy-pachyderm-public-test-data/opus/EMEA0.3.tar.gz
