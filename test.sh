@@ -137,7 +137,9 @@ test_5() {
 #test_3
 #fake_test_3
 #ADDRESS=52.91.245.49:30650
-ADDRESS=54.175.9.150:30650
+#ADDRESS=54.175.9.150:30650
+# restarted instances / new ip
+ADDRESS=52.200.153.133:30650
 dataset=3
 
 pachctl delete-pipeline opus_repack_$dataset

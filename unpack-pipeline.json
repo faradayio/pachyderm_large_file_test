@@ -18,7 +18,7 @@
 	  "    echo \"lang_out=$lang_out\"",
       "    mkdir -p \"$lang_out\"",
 	  "    echo \"going to copy all the files ( $(ls $lang_dir | wc -l) ) in $lang_dir: $lang_dir\"",
-	  "    for file in \"$lang_dir\"/*; do cp \"$file\" \"$lang_out\"; done",
+	  "    for file in \"$lang_dir\"/*; do cp -r \"$file\" \"$lang_out\"; done",
       "  done",
       "  rm -rf *",
       "done",

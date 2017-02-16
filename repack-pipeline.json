@@ -31,7 +31,7 @@
         "partition": "FILE",
         "incremental": "NONE"
       },
-	  "emptyShardsOk": true
+	  "runEmpty": true
     }
   ]
 }
