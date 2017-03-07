@@ -1,2 +1,1 @@
 https://fdy-pachyderm-public-test-data.s3.amazonaws.com/opus/EUconst0.1.tar.gz
-https://fdy-pachyderm-public-test-data.s3.amazonaws.com/opus/Books2014-07-30.tar.gz
