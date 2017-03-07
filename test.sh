@@ -53,7 +53,7 @@ test_3() {
     pachctl put-file opus_tars master -c -i URLS.txt
     set +o xtrace
 
-    wait_for_pfs_glob "opus_tars/master/EUbookshop0.2.tar.gz"
+    wait_for_pfs_glob "opus_tars/master/fdy-pachyderm-public-test-data/opus/EUbookshop0.2.tar.gz"
 }
 
 # You can run this instead of test_3 in order to debug the pipelines before
@@ -91,8 +91,8 @@ test_5() {
 }
 
 # The basic tests of file addition.
-test_1
-test_2
+#test_1
+#test_2
 
 # You need one of the other of these (but not both) for test_4 and test_5.
 test_3
@@ -101,4 +101,3 @@ test_3
 # Pipeline tests.
 test_4
 test_5
-
