@@ -140,7 +140,7 @@ test_5() {
 #ADDRESS=54.175.9.150:30650
 # restarted instances / new ip
 ADDRESS=52.200.153.133:30650
-dataset=3
+dataset=4
 
 pachctl delete-pipeline opus_repack_$dataset
 pachctl delete-repo opus_repack_$dataset
