@@ -4,18 +4,20 @@
   },
   "transform": {
     "image": "ubuntu:latest",
+    "debug": true,
     "cmd": ["bash"],
     "stdin": [
-        "set -euo pipefail",
-        "for f in $(find /pfs/opus_tars/ -name '*.tar.gz'); do",
-        "    echo Copying \"$f\"",
-        "    cp \"$f\" \"/pfs/out/$(basename \"$f\")\"",
-        "done"
+      "set -euo pipefail",
+      "for f in $(find /pfs/opus_tars/ -name '*.tar.gz'); do",
+      "   echo \"Copying $f\"",
+      "   echo \"... to /pfs/out/$(basename \"$f\")\"",
+      "   cp \"$f\" \"/pfs/out/$(basename \"$f\")\"",
+      "done"
     ]
   },
   "parallelism_spec": {
     "strategy": "CONSTANT",
-    "constant": 2
+    "constant": 4
   },
   "inputs": [
     {
@@ -25,7 +27,8 @@
       "method": {
         "partition": "FILE",
         "incremental": "NONE"
-      }
+      },
+	  "lazy": true
     }
   ]
 }

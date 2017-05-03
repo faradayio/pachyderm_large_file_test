@@ -4,18 +4,23 @@
   },
   "transform": {
     "image": "ubuntu:latest",
+    "debug": true,
     "cmd": ["bash"],
     "stdin": [
+	  "echo 'starting user code'",
       "set -euo pipefail",
       "cd /pfs/opus_unpack",
+	  "echo 'number of files to unpack'",
+	  "ls -1 | wc -l",
       "for lang in ??; do",
+	  "  echo \"re-tarring $lang to /pfs/out/$(basename \"$lang\").tar\"",
       "  tar cf \"/pfs/out/$(basename \"$lang\").tar\" \"$lang\"",
       "done"
     ]
   },
   "parallelism_spec": {
     "strategy": "CONSTANT",
-    "constant": 2
+    "constant": 4
   },
   "inputs": [
     {
@@ -25,7 +30,8 @@
       "method": {
         "partition": "FILE",
         "incremental": "NONE"
-      }
+      },
+	  "runEmpty": true
     }
   ]
 }
