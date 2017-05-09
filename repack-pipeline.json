@@ -27,11 +27,8 @@
       "repo": {
         "name": "opus_unpack"
       },
-      "method": {
-        "partition": "FILE",
-        "incremental": "NONE"
-      },
-	  "runEmpty": true
+      "glob": "/*",
+      "runEmpty": true
     }
   ]
 }

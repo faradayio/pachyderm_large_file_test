@@ -24,11 +24,8 @@
       "repo": {
         "name": "opus_tars"
       },
-      "method": {
-        "partition": "FILE",
-        "incremental": "NONE"
-      },
-	  "lazy": true
+      "glob": "/*",
+      "lazy": true
     }
   ]
 }

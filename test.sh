@@ -59,23 +59,25 @@ test_2() {
 }
 
 flat_put() {
-	echo "=== carefully putting $1 into $2"
+    echo "=== carefully putting $1 into $2"
 
-	cat $1 | while read line; do \
-		echo "		--- uploading $line"
-		pachctl put-file $2 master /`basename $line` -f $line; \
-	done
+    cat $1 | while read line; do
+	echo "		--- uploading $line"
+	pachctl put-file $2 master /`basename $line` -f $line;
+    done
 }
 
 
 test_3() {
-	test_3_from_file URLS.txt
+    test_3_from_file URLS.txt
 }
 
 test_3_from_file() {
     echo "=== Test 3: Add 60 GB of files"
-
+    
     set -o xtrace
+    echo "(Deleting previous data load.)"
+    pachctl delete-repo opus_tars_$1 || true    
     pachctl create-repo opus_tars_$1
     pachctl start-commit opus_tars_$1 master
 	flat_put URLS-$1.txt opus_tars_$1
@@ -132,34 +134,32 @@ test_5() {
 #test_1
 #test_2
 
-# You need one of the other of these (but not both) for test_4 and test_5.
-#test_3
-#fake_test_3
-#ADDRESS=52.91.245.49:30650
-#ADDRESS=54.175.9.150:30650
-# restarted instances / new ip
-ADDRESS=52.200.153.133:30650
+# Specify which data set to use.
 dataset=4
 
-pachctl delete-pipeline opus_repack_$dataset
-pachctl delete-repo opus_repack_$dataset
-pachctl delete-pipeline opus_unpack_$dataset
-pachctl delete-repo opus_unpack_$dataset
-pachctl delete-pipeline opus_copy_$dataset
-pachctl delete-repo opus_copy_$dataset
-pachctl delete-repo opus_tars_$dataset
-
-echo "Inputting data - starting at"
+# You need _one_ of these data sources for test_4 and test_5.
+echo "==== Inputting data - starting at"
 date
+#fake_test_3
 test_3_from_file $dataset
 echo "Finished inputting data at:"
 date
 
+echo "==== Deleting any previous test run (please ignore errors)."
+pachctl delete-pipeline opus_repack_$dataset || true
+pachctl delete-repo opus_repack_$dataset || true
+pachctl delete-pipeline opus_unpack_$dataset || true
+pachctl delete-repo opus_unpack_$dataset || true
+pachctl delete-pipeline opus_copy_$dataset || true
+pachctl delete-repo opus_copy_$dataset || true
+
 # Pipeline tests.
-echo "Starting copy at"
+echo "==== Starting copy at"
 date
 test_4 $dataset
 echo "Finished copy at"
+date
+echo "==== Starting un/repack at:"
 date
 test_5 $dataset
 echo "Finished un/repack at:"

@@ -34,10 +34,7 @@
       "repo": {
         "name": "opus_copy"
       },
-      "method": {
-        "partition": "FILE",
-        "incremental": "NONE"
-      },
+      "glob": "/*",
       "lazy": true
     }
   ]
